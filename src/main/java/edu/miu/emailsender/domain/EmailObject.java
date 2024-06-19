@@ -43,7 +43,7 @@ public class EmailObject {
     @Column(nullable = false,name = "entry_time")
     private LocalDateTime entryTime;
 
-    @Column(nullable = false,name = "sent_time")
+    @Column(nullable = true,name = "sent_time")
     private LocalDateTime sentTime;
 
     @Column(nullable = false,name = "last_tried_at")

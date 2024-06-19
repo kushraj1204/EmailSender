@@ -1,5 +1,6 @@
 package edu.miu.emailsender.listener;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.miu.emailsender.domain.EmailObject;
 import edu.miu.emailsender.dto.EmailObjectDto;
 import edu.miu.emailsender.mapper.DtoMapper;
@@ -29,17 +30,25 @@ public class EmailQueueListener {
         this.emailSenderService = emailSenderService;
     }
 
-    @JmsListener(destination = "emailQueue")
+//    @JmsListener(destination = "emailQueue")
     public void receiveMessage(final String strInput) {
-        EmailObjectDto objectDto= StaticUtils.mapper.convertValue(strInput, EmailObjectDto.class);
-        EmailObject object=DtoMapper.dtoMapper.emailObjectDtoToEmailObject(objectDto);
-        boolean status = emailSenderService.sendSimpleMessage(objectDto);
-        object.setSent(status);
-        if (status) {
-            log.info("Email sent status: {}",status);
-            object.setSentTime(LocalDateTime.now());
+        EmailObjectDto objectDto = null;
+        try {
+            objectDto = StaticUtils.mapper.readValue(strInput, EmailObjectDto.class);
+            EmailObject object = DtoMapper.dtoMapper.emailObjectDtoToEmailObject(objectDto);
+//            boolean status = emailSenderService.sendSimpleMessage(objectDto);
+            boolean status=false;
+            object.setSent(status);
+            if (status) {
+                log.info("Email sent status: {}", status);
+                object.setSentTime(LocalDateTime.now());
+            }
+            object.setEntryTime(LocalDateTime.now());
+            object.setLastTriedAt(LocalDateTime.now());
+            emailObjectService.save(object);
+        } catch (JsonProcessingException e) {
+            log.error("Error parsing the received object into EmailObject {}", strInput);
         }
-        object.setLastTriedAt(LocalDateTime.now());
-        emailObjectService.save(object);
+
     }
 }

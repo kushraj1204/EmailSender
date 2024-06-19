@@ -14,5 +14,5 @@ public interface EmailObjectRepository extends JpaRepository<EmailObject,Long> {
 
 
     @Query("SELECT e FROM EmailObject e WHERE e.isSent = false AND e.entryTime > :targetDateTime")
-    List<EmailObject> getPendingEmailsSince(LocalDateTime targetDate);
+    List<EmailObject> getPendingEmailsSince(LocalDateTime targetDateTime);
 }
