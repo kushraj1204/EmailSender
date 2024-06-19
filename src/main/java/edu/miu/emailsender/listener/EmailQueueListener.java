@@ -30,14 +30,13 @@ public class EmailQueueListener {
         this.emailSenderService = emailSenderService;
     }
 
-//    @JmsListener(destination = "emailQueue")
+    @JmsListener(destination = "emailQueue")
     public void receiveMessage(final String strInput) {
         EmailObjectDto objectDto = null;
         try {
             objectDto = StaticUtils.mapper.readValue(strInput, EmailObjectDto.class);
             EmailObject object = DtoMapper.dtoMapper.emailObjectDtoToEmailObject(objectDto);
-//            boolean status = emailSenderService.sendSimpleMessage(objectDto);
-            boolean status=false;
+            boolean status = emailSenderService.sendSimpleMessage(objectDto);
             object.setSent(status);
             if (status) {
                 log.info("Email sent status: {}", status);
