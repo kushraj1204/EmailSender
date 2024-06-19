@@ -1,7 +1,8 @@
-package edu.miu.emailsender.service;
+package edu.miu.emailsender.service.impl;
 
 import edu.miu.emailsender.domain.EmailObject;
 import edu.miu.emailsender.repository.EmailObjectRepository;
+import edu.miu.emailsender.service.EmailObjectService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

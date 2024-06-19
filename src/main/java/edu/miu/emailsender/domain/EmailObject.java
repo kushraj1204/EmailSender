@@ -25,6 +25,7 @@ public class EmailObject {
     private String to;
 
     private String cc;
+
     private String bcc;
 
     @Column(nullable = false)

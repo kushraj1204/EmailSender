@@ -1,7 +1,8 @@
-package edu.miu.emailsender.service;
+package edu.miu.emailsender.service.impl;
 
 import edu.miu.emailsender.domain.EmailObject;
 import edu.miu.emailsender.dto.EmailObjectDto;
+import edu.miu.emailsender.service.EmailSenderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
